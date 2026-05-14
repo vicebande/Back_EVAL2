@@ -8,7 +8,7 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware para parsear JSON y permitir CORS
+// Middleware para parsear JSON y permitir koko
 app.use(cors());
 app.use(express.json());
 
