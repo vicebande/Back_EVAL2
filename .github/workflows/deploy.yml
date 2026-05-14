@@ -60,15 +60,15 @@ jobs:
             echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
             echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}" >> .env
 
-            # Limpiar y Reiniciar (Reset)
-            docker compose down || true
-            docker rm -f back-eval2 || true
-            docker pull ${{ secrets.DOCKER_USERNAME }}/back-eval2:latest
-            docker image prune -f
+            # Descargar imagen nueva primero (minimiza downtime)
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/back-eval2:latest
+
+            # Limpiar contenedores viejos
+            sudo docker compose down || true
+            sudo docker rm -f back-eval2 || true
             
             # Crear docker-compose.yml dinámicamente
             cat <<EOF > docker-compose.yml
-            version: '3.8'
             services:
               backend:
                 image: ${{ secrets.DOCKER_USERNAME }}/back-eval2:latest
@@ -80,4 +80,8 @@ jobs:
                 restart: always
             EOF
 
-            docker compose up -d
+            # Levantar el nuevo
+            sudo docker compose up -d
+
+            # Borrar imágenes viejas/huérfanas
+            sudo docker image prune -f
