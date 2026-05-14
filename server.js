@@ -8,7 +8,7 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware para parsear JSON y permitir koko
+// Middleware para parsear JSON y permitir koko locotron
 app.use(cors());
 app.use(express.json());
 
