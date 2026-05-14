@@ -62,6 +62,7 @@ jobs:
 
             # Limpiar y Reiniciar (Reset)
             docker compose down || true
+            docker rm -f back-eval2 || true
             docker pull ${{ secrets.DOCKER_USERNAME }}/back-eval2:latest
             docker image prune -f
             
